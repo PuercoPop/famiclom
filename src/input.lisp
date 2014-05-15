@@ -39,11 +39,26 @@
 (defun reset-strobe (pad)
   "Reset PAD's strobe starting at :a."
   (with-accessors ((strobe pad-strobe)) pad
-    (loop until (eql :a (first strobe)) do (pop strobe))))
+    (loop :until (eql :a (first strobe)) :do (pop strobe))))
 
 (defun get-byte-input% (addr)
+  (declare (ignore addr))
   (prog1 (get-state *pad*)
     (next-state *pad*)))
 
-(defun (setf get-byte-input%) (new-val addr)
-  (reset-strobe *pad*))
+(let ((last-input 0))
+  (defun (setf get-byte-input%) (new-val addr)
+    (declare (ignore addr))
+    (prog1
+        (when (and (eql 0 new-val)
+                   (eql 1 last-input))
+          (reset-strobe *pad*))
+      (setf last-input new-val))))
+
+(defun set-key (target-key pad value)
+  (loop
+     :for (button . key) :in *keymap*
+     :for index :from 0
+     :do
+     (when (eq key target-key)
+       (setf (aref (pad-buttons pad) index) value))))
