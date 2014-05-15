@@ -1,14 +1,20 @@
 (in-package :famiclom)
 
+;;;; References:
+;; http://nesdev.com/NESDoc.pdf Chapter 5
+;; http://www.gamefaqs.com/nes/916386-nes/faqs/2948
+;; http://wiki.nesdev.com/w/index.php/Input_devices
+;; http://wiki.nesdev.com/w/index.php/Standard_controller
+
 (defvar *keymap*
-  '((:a       :sdl-key-z)
-    (:b       :sdl-key-x)
-    (:select  :sdl-key-space)
-    (:start   :sdl-key-return)
-    (:up      :sdl-key-up)
-    (:down    :sdl-key-down)
-    (:left    :sdl-key-left)
-    (:right   :sdl-key-right)))
+  '((:a      . :sdl-key-z)
+    (:b      . :sdl-key-x)
+    (:select . :sdl-key-space)
+    (:start  . :sdl-key-return)
+    (:up     . :sdl-key-up)
+    (:down   . :sdl-key-down)
+    (:left   . :sdl-key-left)
+    (:right  . :sdl-key-right)))
 
 (deftype bool () '(unsigned-byte 1))
 
